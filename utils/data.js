@@ -25,35 +25,15 @@ const users = [
 ];
 
 const thoughts = [
-    {
-        thought:  'We love batman',
-        reactions: []
-    },
-    {
-        thought:  'We love catwoman',
-        reactions: []
-    },
-    {
-        thought:   'We love joker',
-        reactions: []
-    },
-    {
-        thought:  'we love lucius fox',
-        reactions: []
-    },
-    {
-        thought:  'we love bats',
-        reactions: []
-    },
-    {
-        thought:  'we love cats',
-        reactions: []
-    },
-    {
-        thought:   'we like green eggs and ham',
-        reactions: []
-    },
-   
+
+    'We love batman',
+    'We love catwoman',
+    'We love joker',
+    'we love lucius fox',
+    'we love bats',
+    'we love cats',
+    'we like green eggs and ham',
+    
 ];
 
 const reactions = [

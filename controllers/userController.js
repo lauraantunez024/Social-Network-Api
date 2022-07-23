@@ -21,19 +21,14 @@ module.exports = {
   // Get a single user
   getUserbyId(req, res) {
     User.findOne({ _id: req.params.userId })
-      .select('-__v')
-      .then(async (user) =>
-        !user
-          ? res.status(404).json({ message: 'No user with that ID' })
-          : res.json({
-              user,
-              grade: await grade(req.params.userId),
-            })
-      )
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json(err);
-      });
+    .then((user) => {
+      if (user) {
+        res.json(user);
+      } else {
+        res.status(404).json({ message: "No user found!" });
+      }
+    })
+    .catch((err) => res.status(500).json(err));
   },
   // create a new user
   createUser(req, res) {
@@ -77,7 +72,7 @@ module.exports = {
     console.log(req.body);
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { assignments: req.body } },
+      { $addToSet: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     )
       .then((user) =>

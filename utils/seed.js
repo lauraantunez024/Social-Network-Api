@@ -80,10 +80,7 @@ connection.once("open", async () => {
     }
   }
 
-  console.log("Seeded users:");
-  console.log(await User.find());
-  console.log("Seeded thoughts:");
-  console.log(await Thought.find());
-  console.log("Database seeded!");
+
+  console.log("Your DB is ready!");
   process.exit(0);
 });
