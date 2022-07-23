@@ -30,7 +30,7 @@ connection.once("open", async () => {
   }
 
   // creates an array of thoughts with randomized users
-  const finalThoughts = thoughts.map((thought) => {
+  const getThought = thoughts.map((thought) => {
     const randIndex = Math.floor(Math.random() * userData.length);
 
     return {
@@ -43,7 +43,7 @@ connection.once("open", async () => {
 
   // creates each thought using the array we just mapped
   // Typically I'd like to use "insertMany" but I found it created issues with getters, and would throw an error
-  for (const thought of finalThoughts) {
+  for (const thought of getThought) {
     await Thought.create(thought);
   }
 // fetches the thoughts we just created; we need their _ids to seed other data
@@ -60,26 +60,25 @@ connection.once("open", async () => {
       }
     );
     // seeds each thought's reaction array with 3 random reactions
-    for (let i = 0; i < 3; i++) {
-      const randUser = Math.floor(Math.random() * userData.length);
-      const randReaction =
+    for (let i = 0; i < 2; i++) {
+      const rIndex = Math.floor(Math.random() * userData.length);
+      const reaction =
         reactions[Math.floor(Math.random() * reactions.length)];
-      const reactionObject = {
-        username: userData[randUser].username,
-        userId: userData[randUser]._id,
-        reactionBody: randReaction,
+      const reactionObj = {
+        username: userData[rIndex].username,
+        userId: userData[rIndex]._id,
+        reactionBody: reaction,
       };
       await Thought.findOneAndUpdate(
         { _id: thought._id },
         {
           $push: {
-            reactions: reactionObject,
+            reactions: reactionObj,
           },
         }
       );
     }
   }
-
 
   console.log("Your DB is ready!");
   process.exit(0);
