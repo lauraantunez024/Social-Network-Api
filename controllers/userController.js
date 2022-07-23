@@ -4,13 +4,12 @@ const { User, Thought } = require('../models');
 
 
 module.exports = {
-  // Get all students
+  // Get all users
   getUsers(req, res) {
     User.find()
       .then(async (users) => {
         const userObj = {
           users,
-          headCount: await headCount(),
         };
         return res.json(userObj);
       })
@@ -19,8 +18,8 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
-  // Get a single student
-  getSingleUser(req, res) {
+  // Get a single user
+  getUserbyId(req, res) {
     User.findOne({ _id: req.params.userId })
       .select('-__v')
       .then(async (user) =>
@@ -66,6 +65,11 @@ module.exports = {
         res.status(500).json(err);
       });
   },
+  updateUserbyId(req, res) {
+    User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true })
+      .then((user) => res.json(user))
+      .catch((err) => res.status(500).json(err));
+  },
 
   // Add a friend to a user
   addFriend(req, res) {
@@ -85,10 +89,10 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Remove friend from a student
-  removeFriend(req, res) {
+  // Remove friend from a user
+  deleteFriend(req, res) {
     User.findOneAndUpdate(
-      { _id: req.params.studentId },
+      { _id: req.params.user },
       { $pull: { friend: { friendId: req.params.friendId } } },
       { runValidators: true, new: true }
     )
@@ -102,3 +106,4 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 };
+

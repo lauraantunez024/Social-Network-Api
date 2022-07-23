@@ -6,11 +6,15 @@ const thoughtSchema = new Schema(
   {
     thoughtText: {
       type: String,
-      required: true,
     },
     username: {
-      type: Boolean,
-      default: true,
+      type: String,
+      required: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true
     },
     createdAt: {
       type: Date,
